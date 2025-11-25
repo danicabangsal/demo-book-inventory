@@ -6,7 +6,10 @@ const port = process.env.PORT || 5000;
 // middlewear
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "https://demo-book-client-k9udbdku3-danica-bangsals-projects.vercel.app",
+      "*",
+    ],
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: false,
