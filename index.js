@@ -6,10 +6,21 @@ const port = process.env.PORT || 5000;
 // middlewear
 app.use(
   cors({
-    origin: [
-      "https://demo-book-client-k9udbdku3-danica-bangsals-projects.vercel.app",
-      "*",
-    ],
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      // Allow all Vercel URLs and localhost
+      if (
+        origin.endsWith(".vercel.app") ||
+        origin.includes("localhost") ||
+        origin.includes("127.0.0.1")
+      ) {
+        return callback(null, true);
+      }
+
+      callback(null, true); // Allow all for now
+    },
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: false,
