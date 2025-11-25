@@ -103,6 +103,12 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+// Only start server if not in serverless environment
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
+    })
+}
+
+// Export for Vercel
+module.exports = app;
