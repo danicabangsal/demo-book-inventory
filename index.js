@@ -6,27 +6,16 @@ const port = process.env.PORT || 5000;
 // middlewear
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-
-      // Allow all Vercel URLs and localhost
-      if (
-        origin.endsWith(".vercel.app") ||
-        origin.includes("localhost") ||
-        origin.includes("127.0.0.1")
-      ) {
-        return callback(null, true);
-      }
-
-      callback(null, true); // Allow all for now
-    },
+    origin: true, // Reflect the request origin
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: false,
   })
 );
 app.use(express.json());
+
+// Explicit OPTIONS handler for preflight
+app.options("*", cors());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
